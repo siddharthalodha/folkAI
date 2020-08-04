@@ -1,6 +1,7 @@
 # importing libraries
 import os
 import pickle
+import requests
 
 from flask import Flask, render_template, request
 
@@ -10,7 +11,11 @@ from fastai.vision import load_learner, Path, open_image
 path = Path()
 
 # creating model object from pickle file
-model = load_learner(path, 'model/export.pkl')
+url = 'https://drive.google.com/uc?export=download&confirm=_js9&id=10bHBHw5-prtrZd6R_PgiLfDHRZ2CBn0z'
+r = requests.get(url, allow_redirects=True)
+open('model/model.pkl', 'wb').write(r.content)
+
+model = load_learner(path, 'model/model.pkl')
 
 # creating flask app
 app = Flask(__name__)
